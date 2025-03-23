@@ -1,0 +1,307 @@
+/* Theme Variables */
+:root {
+    --bg: #1a1a1a;
+    --container-bg: #252525;
+    --text: #e0e0e0;
+    --primary: #1e90ff;
+    --secondary: #00cc99;
+    --border: #404040;
+    --shadow: rgba(0, 204, 153, 0.3);
+}
+
+.light-mode {
+    --bg: #f5f6f5;
+    --container-bg: #ffffff;
+    --text: #2f2f2f;
+    --primary: #1e90ff;
+    --secondary: #00cc99;
+    --border: #ccc;
+    --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Mobile-First Styles */
+body {
+    font-family: "Fira Code", "JetBrains Mono", monospace;
+    margin: 0;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: var(--bg);
+    color: var(--text);
+    position: relative;
+    overflow: hidden;
+}
+
+#binary-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    color: var(--secondary);
+    font-size: 0.8em;
+    opacity: 0.2;
+    white-space: pre-wrap;
+    line-height: 1.5;
+    pointer-events: none;
+    z-index: 0;
+}
+
+.container {
+    background: var(--container-bg);
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow: 0 0 10px var(--shadow);
+    text-align: center;
+    width: 100%;
+    max-width: 300px;
+    position: relative;
+    z-index: 1;
+}
+
+.ascii-header {
+    color: var(--primary);
+    font-size: 0.8em;
+    margin: 0 0 10px;
+    line-height: 1;
+}
+
+.title {
+    color: var(--primary);
+    margin-bottom: 15px;
+    font-size: 1.2em;
+    font-weight: 500;
+}
+
+.title.typing {
+    display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
+    border-right: 2px solid var(--secondary);
+    animation: typing 1.5s steps(20, end), blink 0.75s step-end infinite;
+}
+
+.input-wrapper {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.input-prefix {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--primary);
+    font-size: 1em;
+}
+
+.input-field {
+    width: 100%;
+    padding: 10px 10px 10px 25px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-sizing: border-box;
+    background: var(--container-bg);
+    color: var(--secondary);
+    font-family: inherit;
+    font-size: 1em;
+    transition: box-shadow 0.3s ease;
+}
+
+.input-field:focus {
+    outline: none;
+    box-shadow: 0 0 6px var(--primary);
+}
+
+.button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.btn {
+    padding: 10px;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.9em;
+    background: var(--primary);
+    color: var(--text);
+    transition: background 0.2s ease, transform 0.2s ease;
+    width: 100%;
+}
+
+.btn:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: var(--border);
+    color: var(--secondary);
+}
+
+.btn-secondary:hover {
+    background: #505050;
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+.status-text {
+    color: #757575;
+    margin-top: 10px;
+    font-size: 0.9em;
+}
+
+.message-text {
+    color: var(--secondary);
+    font-size: 1.1em;
+    font-weight: 500;
+    margin: 15px 0;
+    padding: 10px;
+    background: var(--container-bg);
+    border-left: 3px solid var(--primary);
+    text-align: left;
+}
+
+.message-text::before {
+    content: "> ";
+    color: var(--primary);
+}
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border);
+    border-top: 2px solid var(--secondary);
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    margin: 10px auto;
+}
+
+.sticker-container {
+    margin: 20px 0;
+}
+
+.sticker {
+    max-width: 80px;
+    height: auto;
+    border: 2px dashed var(--secondary);
+    border-radius: 8px;
+    padding: 5px;
+    background: var(--container-bg);
+    box-shadow: 0 0 5px var(--shadow);
+    animation: stickerPop 0.5s ease-out;
+}
+
+.sticker-text {
+    color: var(--secondary);
+    font-size: 1em;
+    margin-top: 10px;
+}
+
+.sticker-text::before {
+    content: "> ";
+    color: var(--primary);
+}
+
+/* Theme Toggle Switch */
+.theme-toggle {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 2;
+}
+
+.theme-toggle input {
+    display: none;
+}
+
+.theme-toggle label {
+    display: block;
+    width: 40px;
+    height: 20px;
+    background: var(--border);
+    border-radius: 20px;
+    position: relative;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.theme-toggle label::after {
+    content: "";
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    left: 2px;
+    top: 2px;
+    background: var(--text);
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+}
+
+.theme-toggle input:checked + label {
+    background: var(--primary);
+}
+
+.theme-toggle input:checked + label::after {
+    transform: translateX(20px);
+}
+
+/* Animations */
+.fade-in { animation: fadeIn 0.4s ease-in; }
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-in { animation: slideIn 0.4s ease-out; }
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes typing {
+    from { width: 0; }
+    to { width: 100%; }
+}
+
+@keyframes blink {
+    50% { border-color: transparent; }
+}
+
+.hidden { display: none; }
+
+@keyframes stickerPop {
+    0% { transform: scale(0.8); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Desktop Adjustments */
+@media (min-width: 768px) {
+    .container { max-width: 380px; padding: 25px; }
+    .title { font-size: 1.3em; }
+    .input-field { font-size: 1em; }
+    .button-group { flex-direction: row; justify-content: center; gap: 15px; }
+    .btn { width: auto; padding: 10px 20px; }
+    .message-text { font-size: 1.2em; }
+    .sticker { max-width: 100px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .fade-in, .slide-in, .spinner, .title.typing {
+        animation: none !important;
+    }
+    .title.typing { border-right: none; }
+    .btn:hover { transform: none; }
+}

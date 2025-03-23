@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Send OTP</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+        <label for="theme-switch"></label>
+    </div>
+    <div class="container fade-in">
+        <pre class="ascii-header">+--------------------+
+|   Farewell Message    |
++--------------------+</pre>
+        <h2 class="title typing">Enter your phone number</h2>
+        <div class="input-wrapper">
+            <span class="input-prefix">> </span>
+            <input type="text" id="phone" class="input-field" placeholder="01234567890">
+        </div>
+        <button onclick="sendOTP()" class="btn">Send</button>
+        <div id="spinner" class="spinner hidden"></div>
+        <p id="status" class="status-text"></p>
+    </div>
+    <div id="binary-bg"></div>
+</body>
+</html>

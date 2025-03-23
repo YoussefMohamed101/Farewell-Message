@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Anonymous Note</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+        <label for="theme-switch"></label>
+    </div>
+    <div class="container fade-in">
+        <pre class="ascii-header">+--------------------+
+|   OTP TERMINAL    |
++--------------------+</pre>
+        <h2 class="title typing">Add Your Anonymous Note</h2>
+        <p class="status-text">Note: Your message will be stored anonymously.</p>
+        <div class="input-wrapper">
+            <span class="input-prefix">> </span>
+            <textarea id="note" class="input-field" placeholder="Type your note here..."></textarea>
+        </div>
+        <button onclick="submitNote()" class="btn">Submit</button>
+        <div id="spinner" class="spinner hidden"></div>
+        <p id="status" class="status-text"></p>
+    </div>
+    <div id="binary-bg"></div>
+</body>
+</html>

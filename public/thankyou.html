@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You</title>
+    <link rel="stylesheet" href="styles.css">
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+        <label for="theme-switch"></label>
+    </div>
+    <div class="container fade-in">
+        <pre class="ascii-header">+--------------------+
+|   Farewell Message    |
++--------------------+</pre>
+        <h2 class="title typing">Thank You</h2>
+        <div id="sticker-container" class="sticker-container">
+            <img id="sticker-image" class="sticker" alt="Random Sticker">
+            <p id="sticker-text" class="sticker-text"></p>
+        </div>
+        <button onclick="window.location.href='index.html'" class="btn btn-secondary">Home page</button>
+    </div>
+    <div id="binary-bg"></div>
+</body>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Message</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script defer src="script.js"></script>
+</head>
+<body>
+    <div class="theme-toggle">
+        <input type="checkbox" id="theme-switch" onchange="toggleTheme()">
+        <label for="theme-switch"></label>
+    </div>
+    <div class="container fade-in">
+        <pre class="ascii-header">+--------------------+
+|   Farewell Message    |
++--------------------+</pre>
+        <h2 class="title typing">Your Message</h2>
+        <p id="message" class="message-text"></p>
+        <div class="button-group">
+            <button onclick="window.location.href='note.html'" class="btn">Add Anonymous Note</button>
+            <button onclick="restart()" class="btn btn-secondary">Home page</button>
+        </div>
+    </div>
+    <div id="binary-bg"></div>
+</body>
+</html>

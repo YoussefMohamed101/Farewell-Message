@@ -1,7 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const dataFilePath = path.join(__dirname, '../data/data.json');
+const dataFilePath = path.join(__dirname, '../data.json');
 
 const loadData = () => {
     if (!fs.existsSync(dataFilePath)) return {};

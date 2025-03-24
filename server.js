@@ -1,7 +1,7 @@
 const express = require("express");
 const admin = require("firebase-admin");
 const path = require("path");
-const otpRouter = require("./routes/otp"); // Assuming this is your router file
+const otpRouter = require("./routes/otpRoutes");
 
 // Initialize Firebase Admin SDK
 const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); // Set in Render

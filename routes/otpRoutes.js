@@ -11,7 +11,7 @@ router.post('/send', async (req, res) => {
         return res.status(400).json({ success: false, message: "يرجى إدخال رقم الهاتف" });
     }
 
-    const otp = storeOTP(phone, DEFAULT_DEVICE_ID);
+    const otp = await storeOTP(phone, DEFAULT_DEVICE_ID);
     if (!otp) {
         return res.status(404).json({ 
             success: false, 
@@ -28,13 +28,13 @@ router.post('/send', async (req, res) => {
     }
 });
 
-router.post('/verify', (req, res) => {
+router.post('/verify', async (req, res) => {
     const { phone, otp } = req.body;
     if (!phone || !otp) {
         return res.status(400).json({ success: false, message: "يرجى إدخال رقم الهاتف ورمز التحقق" });
     }
 
-    const result = verifyOTP(phone, otp, DEFAULT_DEVICE_ID);
+    const result = await verifyOTP(phone, otp, DEFAULT_DEVICE_ID);
     res.json(result);
 });
 

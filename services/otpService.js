@@ -1,16 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-
-const dataFilePath = path.join(__dirname, '../data.json');
-
-const loadData = () => {
-    if (!fs.existsSync(dataFilePath)) return {};
-    return JSON.parse(fs.readFileSync(dataFilePath, 'utf8'));
-};
-
-const saveData = (data) => {
-    fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 2), 'utf8');
-};
+const admin = require("firebase-admin");
+const firestore = admin.firestore();
+const otpCollection = firestore.collection("otp_users");
 
 const generateOTP = () => {
     const words = ["APPLE", "TIGER", "BLUE", "GREEN", "LION", "BANANA"];
@@ -20,33 +10,36 @@ const generateOTP = () => {
     return `${word1}-${number}-${word2}`;
 };
 
-const storeOTP = (phone, deviceId) => {
-    const data = loadData();
-    if (!data[phone]) return null;
+const storeOTP = async (phone, deviceId) => {
+    const docRef = otpCollection.doc(phone);
+    const doc = await docRef.get();
+
+    if (!doc.exists) return null;
 
     const otp = generateOTP();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
 
-    data[phone] = {
-        ...data[phone],
+    const data = {
+        ...doc.data(),
         otp,
         expires_at: expiresAt,
         device_id: deviceId
     };
-    saveData(data);
+
+    await docRef.set(data);
     return otp;
 };
 
-const verifyOTP = (phone, inputOtp, deviceId) => {
-    const data = loadData();
-    if (!data[phone]) return { success: false, message: "رقم الهاتف غير مسجل" };
+const verifyOTP = async (phone, inputOtp, deviceId) => {
+    const docRef = otpCollection.doc(phone);
+    const doc = await docRef.get();
 
-    const { otp, expires_at, device_id, message } = data[phone];
+    if (!doc.exists) return { success: false, message: "رقم الهاتف غير مسجل" };
+
+    const { otp, expires_at, device_id, message } = doc.data();
 
     if (new Date() > new Date(expires_at)) {
-        delete data[phone].otp;
-        delete data[phone].expires_at;
-        saveData(data);
+        await docRef.update({ otp: admin.firestore.FieldValue.delete(), expires_at: admin.firestore.FieldValue.delete() });
         return { success: false, message: "انتهت صلاحية رمز التحقق" };
     }
 
@@ -58,10 +51,8 @@ const verifyOTP = (phone, inputOtp, deviceId) => {
         return { success: false, message: "رمز التحقق غير صالح لهذا الجهاز" };
     }
 
-    delete data[phone].otp; // Clear OTP after use
-    delete data[phone].expires_at;
-    saveData(data);
-    return { success: true, message }; // Always return the stored message
+    await docRef.update({ otp: admin.firestore.FieldValue.delete(), expires_at: admin.firestore.FieldValue.delete() });
+    return { success: true, message };
 };
 
 module.exports = { storeOTP, verifyOTP };

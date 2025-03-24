@@ -1,50 +1,37 @@
-const express = require('express');
-const path = require('path');
-const otpRouter = require('./routes/otpRoutes');
-const { PORT } = require('./config/env');
-const fs = require("fs");
+const express = require("express");
+const admin = require("firebase-admin");
+const path = require("path");
+const otpRouter = require("./routes/otp"); // Assuming this is your router file
+
+// Initialize Firebase Admin SDK
+const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); // Set in Render
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
 
 const app = express();
-
-// Middleware
 app.use(express.json());
-app.use(express.static(path.join(__dirname, 'public'))); // Serve static files from public/
+app.use(express.static("public"));
 
-// Routes
-app.use('/otp', otpRouter);
+// Mount OTP routes
+app.use("/otp", otpRouter);
 
-// File path for notes storage
-const notesFile = path.join(__dirname, "notes.json");
+// Firestore collection for notes
+const notesCollection = admin.firestore().collection("notes");
 
-// Load existing notes or initialize empty array
-let notes = [];
-if (fs.existsSync(notesFile)) {
-    try {
-        const data = fs.readFileSync(notesFile, "utf8");
-        notes = JSON.parse(data);
-    } catch (err) {
-        console.error("Error loading notes.json:", err);
-        notes = [];
-    }
-} else {
-    fs.writeFileSync(notesFile, JSON.stringify(notes));
-}
-
-// Endpoint to add a note with persistence
-app.post("/notes", (req, res) => {
+// Endpoint to add a note with Firebase persistence
+app.post("/otp/notes/add", async (req, res) => { // Adjusted to match client-side fetch
     const { message } = req.body;
     if (!message) return res.status(400).json({ success: false, message: "Note required!" });
 
     const newNote = { message, timestamp: Date.now() };
-    notes.push(newNote);
 
-    // Save to notes.json
     try {
-        fs.writeFileSync(notesFile, JSON.stringify(notes, null, 2));
-        console.log("Notes updated:", notes);
+        await notesCollection.add(newNote);
+        console.log("Note added:", newNote);
         res.json({ success: true, message: "Note added anonymously!" });
     } catch (err) {
-        console.error("Error saving notes:", err);
+        console.error("Error saving note:", err);
         res.status(500).json({ success: false, message: "Error saving note!" });
     }
 });

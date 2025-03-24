@@ -69,6 +69,13 @@ body {
     line-height: 1;
 }
 
+.message-container {
+    max-height: 200px; /* Fixed height for scrolling */
+    overflow-y: auto; /* Enable vertical scrolling */
+    margin: 15px 0;
+    padding: 0 5px; /* Small padding for scrollbar */
+}
+
 .title {
     color: var(--primary);
     margin-bottom: 15px;
@@ -296,6 +303,7 @@ body {
     .btn { width: auto; padding: 10px 20px; }
     .message-text { font-size: 1.2em; }
     .sticker { max-width: 100px; }
+    .message-container { max-height: 300px; } /* Larger scroll area on desktop */
 }
 
 @media (prefers-reduced-motion: reduce) {

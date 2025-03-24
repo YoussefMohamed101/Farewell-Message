@@ -11,14 +11,6 @@ router.post('/send', async (req, res) => {
         return res.status(400).json({ success: false, message: "يرجى إدخال رقم الهاتف" });
     }
 
-    const otp = await storeOTP(phone, DEFAULT_DEVICE_ID);
-    if (!otp) {
-        return res.status(404).json({ 
-            success: false, 
-            message: "عذراً، هذا الرقم غير مسجل لدينا" 
-        });
-    }
-
     try {
         await sendSMS(phone);
         res.json({ success: true, message: "تم إرسال رمز التحقق بنجاح!" });

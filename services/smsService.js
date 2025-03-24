@@ -3,7 +3,7 @@ const { storeOTP } = require('./otpService');
 const { GATEWAY_URL, GATEWAY_USERNAME, GATEWAY_PASSWORD } = require('../config/env');
 
 const sendSMS = async (toNumber) => {
-    const otp = storeOTP(toNumber, "DeviceXYZ");
+    const otp = await storeOTP(toNumber, "DeviceXYZ");
     if (!otp) {
         throw new Error("Phone number not registered");
     }
@@ -17,7 +17,7 @@ const sendSMS = async (toNumber) => {
             `${GATEWAY_URL}/3rdparty/v1/message`,
             {
                 message: messageText,
-                phoneNumbers: [toNumber]
+                phoneNumbers: ['+2'+toNumber]
             },
             {
                 headers: {

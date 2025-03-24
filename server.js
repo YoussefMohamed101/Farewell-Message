@@ -1,13 +1,24 @@
 const express = require("express");
 const admin = require("firebase-admin");
-const path = require("path");
-const otpRouter = require("./routes/otpRoutes");
+const {FIREBASE_SERVICE_ACCOUNT} = require('./config/env');
 
-// Initialize Firebase Admin SDK
-const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT); // Set in Render
+// Initialize Firebase Admin SDK first
+let serviceAccount;
+try {
+    serviceAccount = JSON.parse(FIREBASE_SERVICE_ACCOUNT);
+    console.log("Firebase service account loaded successfully");
+} catch (error) {
+    console.error("Error parsing FIREBASE_SERVICE_ACCOUNT:", error.message);
+    throw new Error("Invalid Firebase service account JSON");
+}
+
 admin.initializeApp({
     credential: admin.credential.cert(serviceAccount)
 });
+console.log("Firebase Admin SDK initialized");
+
+const path = require("path");
+const otpRouter = require("./routes/otpRoutes");
 
 const app = express();
 app.use(express.json());
@@ -20,7 +31,7 @@ app.use("/otp", otpRouter);
 const notesCollection = admin.firestore().collection("notes");
 
 // Endpoint to add a note with Firebase persistence
-app.post("/otp/notes/add", async (req, res) => { // Adjusted to match client-side fetch
+app.post("/notes", async (req, res) => {
     const { message } = req.body;
     if (!message) return res.status(400).json({ success: false, message: "Note required!" });
 

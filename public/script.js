@@ -36,7 +36,7 @@ const stickers = [
 ];
 
 async function sendOTP() {
-    const phone = '+2' + document.getElementById("phone").value;
+    const phone = document.getElementById("phone").value;
     const status = document.getElementById("status");
     const spinner = document.getElementById("spinner");
 

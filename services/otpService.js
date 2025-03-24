@@ -14,17 +14,28 @@ const storeOTP = async (phone, deviceId) => {
     const docRef = otpCollection.doc(phone);
     const doc = await docRef.get();
 
-    if (!doc.exists) return null;
-
     const otp = generateOTP();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000).toISOString();
+    const genericMessage = "اهلا, اية الاخبار, يمكن مجتش فرصة نشتغل سوا بس اي حد في الشركة اكيد جامد 😂, يمكن تيجي فرصة و نشتغل سوا بعدين, اتمنالك التوفيق"; // Generic message for unregistered numbers
 
-    const data = {
-        ...doc.data(),
-        otp,
-        expires_at: expiresAt,
-        device_id: deviceId
-    };
+    let data;
+    if (doc.exists) {
+        // Phone number exists in DB, use existing message
+        data = {
+            ...doc.data(),
+            otp,
+            expires_at: expiresAt,
+            device_id: deviceId
+        };
+    } else {
+        // Phone number not found, store with generic message
+        data = {
+            message: genericMessage,
+            otp,
+            expires_at: expiresAt,
+            device_id: deviceId
+        };
+    }
 
     await docRef.set(data);
     return otp;
@@ -34,7 +45,10 @@ const verifyOTP = async (phone, inputOtp, deviceId) => {
     const docRef = otpCollection.doc(phone);
     const doc = await docRef.get();
 
-    if (!doc.exists) return { success: false, message: "رقم الهاتف غير مسجل" };
+    if (!doc.exists) {
+        // This shouldn’t happen since storeOTP always creates a doc, but handle it anyway
+        return { success: false, message: "رقم الهاتف غير مسجل" };
+    }
 
     const { otp, expires_at, device_id, message } = doc.data();
 
@@ -51,8 +65,9 @@ const verifyOTP = async (phone, inputOtp, deviceId) => {
         return { success: false, message: "رمز التحقق غير صالح لهذا الجهاز" };
     }
 
+    // Clear OTP fields after successful verification
     await docRef.update({ otp: admin.firestore.FieldValue.delete(), expires_at: admin.firestore.FieldValue.delete() });
-    return { success: true, message };
+    return { success: true, message }; // Return stored message (custom or generic)
 };
 
 module.exports = { storeOTP, verifyOTP };

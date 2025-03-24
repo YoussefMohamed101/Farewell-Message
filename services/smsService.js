@@ -4,9 +4,6 @@ const { GATEWAY_URL, GATEWAY_USERNAME, GATEWAY_PASSWORD } = require('../config/e
 
 const sendSMS = async (toNumber) => {
     const otp = await storeOTP(toNumber, "DeviceXYZ");
-    if (!otp) {
-        throw new Error("Phone number not registered");
-    }
 
     const messageText = `${otp}`;
     console.log(`🔹 جاري إرسال OTP: ${otp} إلى ${toNumber}`);

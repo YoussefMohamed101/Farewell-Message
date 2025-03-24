@@ -28,11 +28,15 @@ function updateBinaryHex() {
 
 // Placeholder sticker + text pairs (replace with yours)
 const stickers = [
-    { image: "stickers/sticker1.png", text: "Nice hack!" },
-    { image: "stickers/sticker2.png", text: "Code on!" },
-    { image: "stickers/sticker3.png", text: "Byte me!" },
-    { image: "stickers/sticker4.png", text: "bye!" }
-
+    { image: "stickers/sticker1.png", text: "" },
+    { image: "stickers/sticker2.png", text: "" },
+    { image: "stickers/sticker3.png", text: "7byby tslm" },
+    { image: "stickers/sticker4.png", text: "" },
+    { image: "stickers/sticker5.png", text: "tslm ya kbeer" },
+    { image: "stickers/sticker6.png", text: "" },
+    { image: "stickers/sticker7.png", text: "" },
+    { image: "stickers/sticker8.png", text: "5od 4wayet faka" },
+    { image: "stickers/sticker9.png", text: "" }
 ];
 
 async function sendOTP() {
